@@ -8,11 +8,11 @@
 //   - "Edit in virtual view" command: opens decrypted plaintext in a virtual document,
 //     save re-encrypts back to disk via sops --set
 
-import * as vscode from 'vscode'
 import { spawn } from 'node:child_process'
-import * as path from 'node:path'
-import * as fs from 'node:fs/promises'
 import { existsSync, readFileSync } from 'node:fs'
+import * as fs from 'node:fs/promises'
+import * as path from 'node:path'
+import * as vscode from 'vscode'
 
 // ============================================================================
 // Detection: is this an encrypted SOPS file?
@@ -149,14 +149,7 @@ async function decryptDocument(doc: vscode.TextDocument): Promise<DecryptedFile>
 
   const type = inferInputType(doc)
   const useFile = doc.uri.scheme === 'file' && !doc.isDirty
-  const args = [
-    'decrypt',
-    '--input-type',
-    type,
-    '--output-type',
-    type,
-    useFile ? doc.uri.fsPath : '/dev/stdin',
-  ]
+  const args = ['decrypt', '--input-type', type, '--output-type', type, useFile ? doc.uri.fsPath : '/dev/stdin']
 
   try {
     const plaintext = await runSops(sopsBinary, args, useFile ? undefined : doc.getText())
@@ -178,12 +171,7 @@ function inferInputType(doc: vscode.TextDocument): FileType {
   const fname = path.basename(doc.fileName).toLowerCase()
   if (fname.endsWith('.json') || fname.endsWith('.json.enc')) return 'json'
   if (fname.includes('.env') || fname.endsWith('.dotenv') || fname.endsWith('.dotenv.enc')) return 'dotenv'
-  if (
-    fname.endsWith('.yaml') ||
-    fname.endsWith('.yml') ||
-    fname.endsWith('.yaml.enc') ||
-    fname.endsWith('.yml.enc')
-  )
+  if (fname.endsWith('.yaml') || fname.endsWith('.yml') || fname.endsWith('.yaml.enc') || fname.endsWith('.yml.enc'))
     return 'yaml'
   if (fname.endsWith('.bin.enc') || fname.endsWith('.binary.enc') || fname.endsWith('.enc')) {
     const head = doc.getText(new vscode.Range(0, 0, Math.min(doc.lineCount, 20), 0))
@@ -206,12 +194,12 @@ function parsePlaintext(plaintext: string, doc: vscode.TextDocument, type: FileT
   if (type === 'dotenv') {
     for (const line of plaintext.split(/\r?\n/)) {
       const m = line.match(/^([A-Za-z_][A-Za-z0-9_]*)=(.*)$/)
-      if (m) values.set(m[1]!, m[2]!)
+      if (m?.[1]) values.set(m[1], m[2] ?? '')
     }
     for (let i = 0; i < doc.lineCount; i++) {
       const text = doc.lineAt(i).text
       const m = text.match(/^([A-Za-z_][A-Za-z0-9_]*)=/)
-      if (m && values.has(m[1]!)) keyLines.set(m[1]!, i)
+      if (m?.[1] && values.has(m[1])) keyLines.set(m[1], i)
     }
   } else if (type === 'json') {
     try {
@@ -234,12 +222,12 @@ function parsePlaintext(plaintext: string, doc: vscode.TextDocument, type: FileT
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i] ?? ''
       const m = line.match(/^([A-Za-z_][A-Za-z0-9_-]*):\s*(.*)$/)
-      if (m && m[2]) values.set(m[1]!, m[2]!)
+      if (m?.[1] && m[2]) values.set(m[1], m[2])
     }
     for (let i = 0; i < doc.lineCount; i++) {
       const text = doc.lineAt(i).text
       const m = text.match(/^([A-Za-z_][A-Za-z0-9_-]*):/)
-      if (m && values.has(m[1]!)) keyLines.set(m[1]!, i)
+      if (m?.[1] && values.has(m[1])) keyLines.set(m[1], i)
     }
   }
 
