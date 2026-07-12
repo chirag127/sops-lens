@@ -1,0 +1,47 @@
+name: prerelease
+
+# Packages the extension into a .vsix and attaches it to a GitHub prerelease.
+# Fires on version tags (v*) and manual dispatch. Uses GITHUB_TOKEN only.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prerelease-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package:
+    # no-recursion guard: skip runs triggered by the release bot itself
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm run compile
+
+      - name: Package .vsix
+        run: |
+          npx vsce package --out "sops-lens-${GITHUB_REF_NAME#v}.vsix"
+
+      - name: Attach .vsix to prerelease
+        uses: softprops/action-gh-release@v3
+        with:
+          prerelease: true
+          generate_release_notes: true
+          files: sops-lens-*.vsix
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

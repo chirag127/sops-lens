@@ -90,16 +90,19 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
+    "typecheck": "tsc --noEmit -p ./",
     "watch": "tsc -watch -p ./",
     "package": "vsce package",
     "lint": "biome check src/",
-    "format": "biome format --write src/"
+    "format": "biome format --write src/",
+    "site:build": "node site/build.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.85.0",
     "@biomejs/biome": "^1.9.0",
     "@vscode/vsce": "^3.2.0",
+    "marked": "^18.0.6",
     "typescript": "^5.6.0"
   },
   "license": "MIT",

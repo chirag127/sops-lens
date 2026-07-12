@@ -1,5 +1,7 @@
 # sops-lens-vsc-ext
 
+[![GitHub stars](https://img.shields.io/github/stars/chirag127/sops-lens?style=social)](https://github.com/chirag127/sops-lens/stargazers)
+
 > VS Code extension that **reveals SOPS-encrypted file values in-editor** as CodeLens / hover tooltip / ghost-text decorations. Decrypts via the `sops` CLI in-memory. **Never writes plaintext to disk.**
 
 ## What it does
@@ -18,12 +20,12 @@ You read your secrets at a glance. You never type `sops -d` again. The plaintext
 
 Configurable via `sopsLens.displayStyle`:
 
-| Mode | What it looks like |
-|---|---|
-| `codelens` (default) | Inline CodeLens above each key: `🔓 dummy-value-123` — click to copy |
-| `hover` | Hover over the key line → tooltip shows `KEY = decrypted_value` |
-| `ghost-text` | Ghost text after the encrypted value: `FOO_API_KEY: ENC[AES256...] → dummy-value` |
-| `all` | All three simultaneously |
+| Mode                 | What it looks like                                                                |
+| -------------------- | --------------------------------------------------------------------------------- |
+| `codelens` (default) | Inline CodeLens above each key: `🔓 dummy-value-123` — click to copy              |
+| `hover`              | Hover over the key line → tooltip shows `KEY = decrypted_value`                   |
+| `ghost-text`         | Ghost text after the encrypted value: `FOO_API_KEY: ENC[AES256...] → dummy-value` |
+| `all`                | All three simultaneously                                                          |
 
 ## Requirements
 
@@ -39,8 +41,8 @@ git clone https://github.com/chirag127/sops-lens-vsc-ext.git
 cd sops-lens-vsc-ext
 npm install
 npm run compile
-npm run package    # produces sops-lens-0.1.0.vsix
-code --install-extension sops-lens-0.1.0.vsix
+npm run package    # produces sops-lens-0.2.0.vsix
+code --install-extension sops-lens-0.2.0.vsix
 ```
 
 **Once published**: search `SOPS Lens` in the VS Code extensions marketplace.
@@ -50,7 +52,7 @@ code --install-extension sops-lens-0.1.0.vsix
 ```jsonc
 {
   // How to display decrypted values
-  "sopsLens.displayStyle": "codelens",   // codelens | hover | ghost-text | all
+  "sopsLens.displayStyle": "codelens", // codelens | hover | ghost-text | all
 
   // Path to the sops binary. Defaults to "sops" (must be on PATH).
   "sopsLens.sopsBinary": "sops",
@@ -66,14 +68,14 @@ code --install-extension sops-lens-0.1.0.vsix
 
 ## Commands
 
-| Command | What it does |
-|---|---|
-| `SOPS Lens: Reveal` | Force-decrypt the active file + render |
-| `SOPS Lens: Hide` | Clear cache for active file + hide decorations |
-| `SOPS Lens: Refresh` | Re-decrypt everything (after editing keys / rotating) |
-| `SOPS Lens: Copy decrypted value` | Used by CodeLens click — copies to clipboard, auto-clears after 30 s |
-| `SOPS Lens: Edit decrypted (virtual view)` | **NEW v0.2** — opens decrypted plaintext in a virtual editor; never on disk |
-| `SOPS Lens: Save virtual (re-encrypt)` | **NEW v0.2** — re-encrypts the virtual view back to the source .enc file via sops |
+| Command                                    | What it does                                                                      |
+| ------------------------------------------ | --------------------------------------------------------------------------------- |
+| `SOPS Lens: Reveal`                        | Force-decrypt the active file + render                                            |
+| `SOPS Lens: Hide`                          | Clear cache for active file + hide decorations                                    |
+| `SOPS Lens: Refresh`                       | Re-decrypt everything (after editing keys / rotating)                             |
+| `SOPS Lens: Copy decrypted value`          | Used by CodeLens click — copies to clipboard, auto-clears after 30 s              |
+| `SOPS Lens: Edit decrypted (virtual view)` | **NEW v0.2** — opens decrypted plaintext in a virtual editor; never on disk       |
+| `SOPS Lens: Save virtual (re-encrypt)`     | **NEW v0.2** — re-encrypts the virtual view back to the source .enc file via sops |
 
 ## Editing encrypted files
 
@@ -89,6 +91,7 @@ There's a `✏️ Edit decrypted (virtual view)` CodeLens at the top of every de
 ## How it decides a file is encrypted
 
 In order:
+
 1. Filename ends in `.enc` or contains `.encrypted.`
 2. File contents have a `sops:` / `"sops":` / `sops_version:` metadata marker in the first 200 lines
 3. **NEW v0.2** — A nearby `.sops.yaml` (walked up from the file's directory, max 20 levels) has a `creation_rules` entry whose `path_regex` or `path_glob` matches the file's relative path

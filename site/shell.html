@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SOPS Lens — reveal encrypted secrets inline in VS Code</title>
+    <meta
+      name="description"
+      content="A VS Code extension that decrypts SOPS-encrypted file values in-editor as CodeLens, hover, or ghost-text. Plaintext never touches disk."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#doc">Skip to content</a>
+
+    <header class="nav">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">SOPS&nbsp;Lens</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#doc">Docs</a>
+        <a href="https://github.com/chirag127/sops-lens">Source</a>
+        <button
+          id="theme"
+          class="theme-toggle"
+          type="button"
+          aria-label="Toggle light and dark theme"
+        >
+          <span class="theme-dot" aria-hidden="true"></span>
+        </button>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">VS Code extension · v{{VERSION}}</p>
+          <h1>Read your secrets<br /><span class="grad">without unsealing them.</span></h1>
+          <p class="lede">
+            SOPS Lens decrypts <code>.enc</code> files <em>in the editor</em> — CodeLens, hover, or
+            ghost-text. It calls the <code>sops</code> CLI in memory. The plaintext never lands on
+            disk, never hits your terminal scrollback, never gets <code>git add</code>-ed by
+            accident.
+          </p>
+          <div class="cta-row">
+            <a
+              class="btn btn-primary"
+              href="https://github.com/chirag127/sops-lens/releases/latest"
+              >Download .vsix</a
+            >
+            <a class="btn btn-ghost" href="https://open-vsx.org/extension/chirag127/sops-lens"
+              >Get it on Open VSX</a
+            >
+          </div>
+          <p class="cta-note">
+            <code class="mono-inline">code --install-extension sops-lens-{{VERSION}}.vsix</code>
+          </p>
+        </div>
+
+        <!-- SIGNATURE: masked ciphertext that lifts to reveal plaintext -->
+        <div class="reveal-card" role="img" aria-label="An encrypted secrets file with redaction bars lifting to reveal the decrypted values">
+          <div class="reveal-head">
+            <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            <span class="reveal-file">.env.enc</span>
+            <span class="reveal-lens" id="lens-badge">reveal</span>
+          </div>
+          <pre class="reveal-body"><code><span class="ln"><span class="key">DB_PASSWORD</span>=<span class="ct">ENC[AES256_GCM,data:9fZ2..</span><span class="plain" data-plain="s3cr3t-pg-2f9a">·</span></span>
+<span class="ln"><span class="key">STRIPE_KEY</span>=<span class="ct">ENC[AES256_GCM,data:pLq8..</span><span class="plain" data-plain="sk_live_4Kd9xQ">·</span></span>
+<span class="ln"><span class="key">JWT_SECRET</span>=<span class="ct">ENC[AES256_GCM,data:Tv13..</span><span class="plain" data-plain="h4nd-rolled-hs256">·</span></span>
+<span class="ln"><span class="key">AGE_RECIPIENT</span>=<span class="ct">ENC[AES256_GCM,data:Rm0z..</span><span class="plain" data-plain="age1ql3z...k9v">·</span></span></code></pre>
+          <div class="reveal-foot">
+            <span class="foot-tag">sops -d · in-memory</span>
+            <button class="reveal-btn" id="reveal-btn" type="button">Reveal values</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="strip">
+        <div class="strip-item">
+          <span class="strip-k">0</span><span class="strip-v">bytes of plaintext written to disk</span>
+        </div>
+        <div class="strip-item">
+          <span class="strip-k">3</span><span class="strip-v">display modes: lens · hover · ghost</span>
+        </div>
+        <div class="strip-item">
+          <span class="strip-k">30s</span><span class="strip-v">clipboard auto-clear after copy</span>
+        </div>
+      </section>
+
+      <article id="doc" class="doc">{{README}}</article>
+    </main>
+
+    <footer class="foot">
+      <span class="brand-mark sm" aria-hidden="true"></span>
+      <p>
+        SOPS Lens — MIT.
+        <a href="https://github.com/chirag127/sops-lens">chirag127/sops-lens</a>
+      </p>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
