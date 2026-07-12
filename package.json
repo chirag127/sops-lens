@@ -3,7 +3,7 @@
   "displayName": "SOPS Lens",
   "description": "Render SOPS-encrypted file values in-editor as CodeLens / hover / ghost-text decorations. Decrypts via the sops CLI in-memory, never writes plaintext to disk.",
   "version": "0.2.0",
-  "publisher": "oriz-org",
+  "publisher": "chirag127",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -106,10 +106,10 @@
   "author": "Chirag Singhal <76880977+chirag127@users.noreply.github.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/oriz-org/sops-lens-vsc-ext.git"
+    "url": "https://github.com/chirag127/sops-lens-vsc-ext.git"
   },
   "bugs": {
-    "url": "https://github.com/oriz-org/sops-lens-vsc-ext/issues"
+    "url": "https://github.com/chirag127/sops-lens-vsc-ext/issues"
   },
-  "homepage": "https://github.com/oriz-org/sops-lens-vsc-ext#readme"
+  "homepage": "https://github.com/chirag127/sops-lens-vsc-ext#readme"
 }

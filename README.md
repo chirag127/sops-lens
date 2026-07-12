@@ -1,7 +1,5 @@
 # sops-lens-vsc-ext
 
-[![GitHub stars](https://img.shields.io/github/stars/chirag127/sops-lens-vsc-ext?style=social)](https://github.com/chirag127/sops-lens-vsc-ext/stargazers)
-
 > VS Code extension that **reveals SOPS-encrypted file values in-editor** as CodeLens / hover tooltip / ghost-text decorations. Decrypts via the `sops` CLI in-memory. **Never writes plaintext to disk.**
 
 ## What it does
@@ -37,7 +35,7 @@ Configurable via `sopsLens.displayStyle`:
 **From source (until published to Marketplace):**
 
 ```bash
-git clone https://github.com/oriz-org/sops-lens-vsc-ext.git
+git clone https://github.com/chirag127/sops-lens-vsc-ext.git
 cd sops-lens-vsc-ext
 npm install
 npm run compile
@@ -117,5 +115,5 @@ MIT. See [LICENSE](./LICENSE).
 
 ## Cross-refs in the oriz family
 
-- [`oriz-org/secrets`](https://github.com/oriz-org/secrets) — the private family secrets store this extension makes pleasant to browse
-- [`oriz-org/workspace`](https://github.com/oriz-org/workspace) — umbrella, see `knowledge/services/security/sops.md` and `knowledge/services/security/age.md` for the broader stack
+- [`chirag127/secrets`](https://github.com/chirag127/secrets) — the private family secrets store this extension makes pleasant to browse
+- [`chirag127/workspace`](https://github.com/chirag127/workspace) — umbrella, see `knowledge/services/security/sops.md` and `knowledge/services/security/age.md` for the broader stack
