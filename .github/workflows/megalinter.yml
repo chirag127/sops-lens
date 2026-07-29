@@ -1,0 +1,29 @@
+name: MegaLinter
+on:
+  push:
+  pull_request:
+permissions:
+  contents: write
+jobs:
+  megalinter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: MegaLinter
+        uses: oxsecurity/megalinter@v8
+        env:
+          VALIDATE_ALL_CODEBASE: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MEGALINTER_FLAVOR: all
+          APPLY_FIXES: all
+          APPLY_FIXES_EVENT: push
+          APPLY_FIXES_MODE: commit
+      - name: Commit and push applied fixes
+        if: steps.megalinter.outputs.has_updated_sources == 1
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: apply megalinter auto-fixes"
+          branch: ${{ github.ref_name }}
