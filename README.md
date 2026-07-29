@@ -1,6 +1,9 @@
 # sops-lens-vsc-ext
 
 [![GitHub stars](https://img.shields.io/github/stars/chirag127/sops-lens?style=social)](https://github.com/chirag127/sops-lens/stargazers)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+
+**Live:** https://sops-lens.oriz.in
 
 > VS Code extension that **reveals SOPS-encrypted file values in-editor** as CodeLens / hover tooltip / ghost-text decorations. Decrypts via the `sops` CLI in-memory. **Never writes plaintext to disk.**
 
