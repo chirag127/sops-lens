@@ -23,7 +23,7 @@ jobs:
           APPLY_FIXES_MODE: commit
       - name: Commit and push applied fixes
         if: steps.megalinter.outputs.has_updated_sources == 1
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "ci: apply megalinter auto-fixes"
           branch: ${{ github.ref_name }}
