@@ -241,7 +241,9 @@ function flattenObject(obj: unknown, prefix: string, out: Map<string, string>): 
     return
   }
   if (Array.isArray(obj)) {
-    obj.forEach((v, i) => flattenObject(v, `${prefix}[${i}]`, out))
+    obj.forEach((v, i) => {
+      flattenObject(v, `${prefix}[${i}]`, out)
+    })
     return
   }
   for (const [k, v] of Object.entries(obj)) {
